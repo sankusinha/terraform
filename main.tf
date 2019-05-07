@@ -2,7 +2,7 @@
 # Download a latest ghost image
 module "image" {
         source = "./image"
-        image = "${var.image}"
+        image = "${lookup(var.image, var.env)}"
 }
 
 
@@ -11,7 +11,15 @@ module "image" {
 module "container" {
         source = "./container"
         image = "${module.image.image_out}"
-        name = "${var.container_name}"
-        int_port = "${var.int_port}"
-        ext_port = "${var.ext_port}"
+        name = "${lookup(var.container_name, var.env)}"
+        int_port = "${lookup(var.int_port, var.env)}"
+        ext_port = "${lookup(var.ext_port, var.env)}"
 }
+
+# Null resource
+resource "null_resource" "null_id" {
+        provisioner "local-exec" {
+                command = "echo ${module.container.container_name}:${module.container.ip} >> container.txt"
+        }
+}
+                

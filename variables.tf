@@ -1,18 +1,20 @@
-
+variable "env" {
+        description = "ENV: In dev or prod"
+}
 variable "image" {
         description = "image for container"
-        default = "ghost:latest"
+        type = "map"
 }
 variable "container_name" {
         description = "Name of the container"
-        default = "blog"
+        type = "map"
 }
 variable "int_port" {
         description = "Internal port number"
-        default = "2368"
+        type = "map"
 }
 variable "ext_port" {
         description = "External port number"
-        default = "80"
+        type = "map"
 }
 
